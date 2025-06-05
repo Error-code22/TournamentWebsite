@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= pageTitle %> - Tournament Hub</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        .tournament-detail-page {
+            max-width: 900px;
+            margin: auto;
+            padding: 20px;
+        }
+        .tournament-detail {
+            background: #fff;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-top: 20px;
+            display: flex;
+            flex-wrap: wrap; /* Allow content to wrap */
+            gap: 20px;
+        }
+        .tournament-image {
+            flex: 1 1 300px; /* Allow image to take space, but not too small */
+            max-width: 400px; /* Max width for image column */
+        }
+        .tournament-image img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .tournament-info {
+            flex: 2 1 450px; /* Allow info to take remaining space */
+        }
+        .tournament-info h1 {
+            color: #0779e4;
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 2.2em;
+        }
+        .tournament-info p {
+            margin-bottom: 10px;
+            line-height: 1.6;
+            font-size: 1.1em;
+        }
+        .tournament-info .meta {
+            font-size: 0.9em;
+            color: #555;
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+        }
+        .actions { /* For existing edit/delete/join/leave buttons */
+            margin-top: 20px;
+            display: flex; 
+            gap: 10px;
+            flex-wrap: wrap;
+            padding-bottom: 20px; /* Add some padding if manage-state is directly below */
+            /* border-bottom: 1px solid #eee; Add border if manage-state is separate and below */
+        }
+        .actions form {
+            display: inline-block; 
+            margin: 0; 
+        }
+        .delete-button { background-color: #dc3545; }
+        .delete-button:hover { background-color: #c82333; }
+        .edit-button { background-color: #007bff; }
+        .edit-button:hover { background-color: #0056b3; }
+        .join-button { background-color: #28a745; } 
+        .join-button:hover { background-color: #218838; }
+        .leave-button { background-color: #ffc107; color: #333; } 
+        .leave-button:hover { background-color: #e0a800; }
+
+        /* Styles for the new Manage Tournament State section */
+        .manage-tournament-state {
+            background: #f9f9f9; /* Slightly different background */
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            margin-top: 30px;
+            border-top: 1px solid #ddd;
+        }
+        .manage-tournament-state h2 {
+            color: #333;
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+        .cta-button-start {
+            background-color: #28a745; /* Green color */
+        }
+        .cta-button-start:hover {
+            background-color: #218838;
+        }
+
+        .participants-section {
+            background: #fff;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-top: 30px;
+        }
+        .participants-section h2 {
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .participants-list {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+        .participants-list li {
+            background: #f0f8ff; 
+            border: 1px solid #cceeff;
+            border-radius: 20px;
+            padding: 8px 15px;
+            font-size: 0.95em;
+            color: #0056b3;
+            font-weight: bold;
+        }
+        .no-participants {
+            text-align: center;
+            color: #777;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <%- include('../partials/navbar') %>
+
+    <main>
+        <section class="tournament-detail-page">
+            <% if (typeof tournament !== 'undefined' && tournament) { %>
+                <div class="tournament-detail">
+                    <div class="tournament-image">
+                        <% if (gameInfo && gameInfo.imageUrl) { %>
+                            <img src="<%= gameInfo.imageUrl %>" alt="<%= gameInfo.name %> Cover">
+                        <% } else { %>
+                            <img src="/images/default_game.jpg" alt="Default Game Image">
+                        <% } %>
+                    </div>
+                    <div class="tournament-info">
+                        <h1><%= tournament.name %></h1>
+                        <p><strong>Game:</strong> <%= tournament.game %></p>
+                        <p><strong>Status:</strong> <span style="font-weight: bold; color: <%= tournament.status === 'pending' ? '#ffc107' : tournament.status === 'active' ? '#28a745' : '#6c757d' %>;"><%= tournament.status.charAt(0).toUpperCase() + tournament.status.slice(1) %></span></p>
+                        <p><strong>Scheduled Date:</strong> <%= tournament.date %></p>
+                        <p><strong>Description:</strong><br><%= tournament.description.replace(/\n/g, '<br>') %></p>
+                        <p class="meta">
+                            Created by: <%= tournament.creatorUsername %> <br>
+                            Posted on: <%= new Date(tournament.createdAt).toLocaleDateString() %>
+                        </p>
+
+                        <div class="actions">
+                            <% if (currentUser) { %>
+                                <% if (currentUser.id === tournament.creatorId && tournament.status === 'pending') { %> <a href="/tournaments/<%= tournament.id %>/edit" class="cta-button edit-button">Edit Tournament</a>
+                                    <form action="/tournaments/<%= tournament.id %>/delete" method="POST" onsubmit="return confirm('Are you sure you want to delete this tournament? This action cannot be undone.');">
+                                        <button type="submit" class="cta-button delete-button">Delete Tournament</button>
+                                    </form>
+                                <% } else if (currentUser.id !== tournament.creatorId && tournament.status === 'pending' && !isParticipant) { %> <form action="/tournaments/<%= tournament.id %>/join" method="POST">
+                                        <button type="submit" class="cta-button join-button">Join Tournament</button>
+                                    </form>
+                                <% } else if (isParticipant) { %> <form action="/tournaments/<%= tournament.id %>/leave" method="POST" onsubmit="return confirm('Are you sure you want to leave this tournament?');">
+                                        <button type="submit" class="cta-button leave-button">Leave Tournament</button>
+                                    </form>
+                                <% } %>
+                            <% } else { %>
+                                <p style="font-size: 0.9em; color: #666;">Login to join or manage this tournament.</p>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+
+                <% if (currentUser && tournament && currentUser.id === tournament.creatorId) { %>
+                    <div class="manage-tournament-state">
+                        <% if (tournament.status === 'pending') { %>
+                            <h2>Manage Tournament State</h2>
+                            <form action="/tournaments/<%= tournament.id %>/start" method="POST" style="display: inline;">
+                                <button type="submit" class="cta-button cta-button-start">Start Tournament</button>
+                            </form>
+                            <p style="font-size: 0.9em; color: #666; margin-top: 10px;">
+                                Starting the tournament will generate the initial matches based on the current participants. 
+                                Ensure all participants have joined before starting. You need at least 2 participants.
+                            </p>
+                        <% } else if (tournament.status === 'active') { %>
+                            <h2>Tournament Active</h2>
+                            <p><strong>This tournament is active!</strong> Matches are underway.</p>
+                            <a href="/tournaments/<%= tournament.id %>/bracket" class="cta-button">View Bracket</a> 
+                            <% } else if (tournament.status === 'completed') { %>
+                            <h2>Tournament Completed</h2>
+                            <p><strong>This tournament has been completed.</strong></p>
+                            <a href="/tournaments/<%= tournament.id %>/bracket" class="cta-button">View Final Bracket</a>
+                            <% } %>
+                    </div>
+                <% } %>
+                <div class="participants-section">
+                    <h2>Participants (<%= tournament.participants.length %>)</h2>
+                    <% if (participantsFullInfo && participantsFullInfo.length > 0) { %>
+                        <ul class="participants-list">
+                            <% participantsFullInfo.forEach(function(participant) { %>
+                                <li><%= participant.username %></li>
+                            <% }); %>
+                        </ul>
+                    <% } else { %>
+                        <p class="no-participants">No one has joined this tournament yet. <% if (tournament.status === 'pending' && (!currentUser || (currentUser && currentUser.id !== tournament.creatorId)) ) { %> Be the first (if you're logged in)! <% } %></p>
+                    <% } %>
+                </div>
+
+            <% } else { %>
+                <p style="text-align: center; margin-top: 50px;">Tournament details could not be loaded or the tournament does not exist.</p>
+            <% } %>
+            <p style="margin-top: 20px; text-align: center;"><a href="/tournaments" class="cta-button">&laquo; Back to All Tournaments</a></p>
+        </section>
+    </main>
+
+    <%- include('../partials/footer') %>
+</body>
+</html>

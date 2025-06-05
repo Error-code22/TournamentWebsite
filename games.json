@@ -1,0 +1,99 @@
+[
+    {
+      "id": "1",
+      "name": "Valorant",
+      "genre": "Tactical Shooter",
+      "developer": "Riot Games",
+      "description": "A 5v5 character-based tactical shooter.",
+      "imageUrl": "/images/valorant.jpg"
+    },
+    {
+      "id": "2",
+      "name": "League of Legends",
+      "genre": "MOBA",
+      "developer": "Riot Games",
+      "description": "A fast-paced, competitive 5v5 strategic game.",
+      "imageUrl": "/images/league-of-legends.jpg"
+    },
+    {
+      "id": "3",
+      "name": "Counter-Strike 2",
+      "genre": "Tactical Shooter",
+      "developer": "Valve",
+      "description": "The next era of Counter-Strike.",
+      "imageUrl": "/images/counter-strike-2.jpg"
+    },
+    {
+      "id": "4",
+      "name": "Dota 2",
+      "genre": "MOBA",
+      "developer": "Valve",
+      "description": "A complex 5v5 team-based strategy game.",
+      "imageUrl": "/images/dota-2.jpg"
+    },
+    {
+      "id": "5",
+      "name": "Blood Strike",
+      "genre": "Battle Royale / FPS",
+      "developer": "NetEase Games",
+      "description": "A lightweight, fast-paced battle royale shooter designed for quick matches and mobile optimization.",
+      "imageUrl": "/images/blood-strike.jpg"
+    },
+    {
+      "id": "6",
+      "name": "Call of Duty Mobile",
+      "genre": "FPS / Battle Royale",
+      "developer": "TiMi Studios (Tencent), Activision",
+      "description": "A mobile adaptation of the Call of Duty franchise, featuring multiplayer, battle royale, and ranked gameplay.",
+      "imageUrl": "/images/call-of-duty-mobile.jpg"
+    },
+    {
+      "id": "7",
+      "name": "Farlight 84",
+      "genre": "Hero Shooter / Battle Royale",
+      "developer": "Farlight Games",
+      "description": "A sci-fi battle royale with jetpacks, hero abilities, and explosive fast-paced action.",
+      "imageUrl": "/images/farlight-84.jpg"
+    },
+    {
+      "id": "8",
+      "name": "Free Fire",
+      "genre": "Battle Royale",
+      "developer": "Garena",
+      "description": "A wildly popular battle royale with 10-minute matches, unique character skills, and support for low-end phones.",
+      "imageUrl": "/images/free-fire.jpg"
+    },
+    {
+      "id": "9",
+      "name": "Mini Militia - Classic Beta",
+      "genre": "2D Shooter / Arcade",
+      "developer": "Appsomniacs LLC",
+      "description": "A nostalgic return to the original Mini Militia chaos with LAN and online multiplayer.",
+      "imageUrl": "/images/mini-militia-classic-beta.jpg"
+    },
+    {
+      "id": "10",
+      "name": "Mini Militia - War.io",
+      "genre": "2D Tactical Shooter",
+      "developer": "Game Changerz",
+      "description": "A modernized, tournament-ready version of Mini Militia with competitive features and loadouts.",
+      "imageUrl": "/images/mini-militia-war-io.jpg"
+    },
+    {
+      "id": "11",
+      "name": "Mobile Legends Bang Bang",
+      "genre": "MOBA",
+      "developer": "Moonton",
+      "description": "A fast-paced 5v5 MOBA built for mobile with a large hero pool and strategic team fights.",
+      "imageUrl": "/images/mobile-legends-bang-bang.jpg"
+    },
+    {
+      "id": "12",
+      "name": "PUBG Mobile",
+      "genre": "Battle Royale / Tactical Shooter",
+      "developer": "LightSpeed & Quantum (Tencent), Krafton",
+      "description": "The mobile version of PUBG featuring realistic gameplay, vehicles, and tactical shooting on large maps.",
+      "imageUrl": "/images/pubg-mobile.jpg"
+    }
+  ]
+  

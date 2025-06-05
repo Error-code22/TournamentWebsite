@@ -1,0 +1,28 @@
+[
+  {
+    "id": "1749025634347",
+    "name": "dota wars",
+    "game": "Dota 2",
+    "description": "meh!",
+    "date": "1222-12-12",
+    "creatorId": "1749021209728",
+    "creatorUsername": "trial3",
+    "createdAt": "2025-06-04T08:27:14.347Z",
+    "participants": [],
+    "status": "pending",
+    "matches": []
+  },
+  {
+    "id": "1749114886566",
+    "name": "PUBG tonament",
+    "game": "PUBG Mobile",
+    "description": "just a test trial",
+    "date": "1010-10-10",
+    "creatorId": "1748983118761",
+    "creatorUsername": "trial2",
+    "createdAt": "2025-06-05T09:14:46.566Z",
+    "participants": [],
+    "status": "pending",
+    "matches": []
+  }
+]

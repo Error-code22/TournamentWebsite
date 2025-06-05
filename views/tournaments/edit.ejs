@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= pageTitle %> - Tournament Hub</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <%- include('../partials/navbar') %>
+
+    <main>
+        <section class="form-container">
+            <h2>Edit Tournament: <%= tournament.name %></h2>
+            <% if (typeof error !== 'undefined' && error) { %>
+                <p style="color: red; text-align: center;"><%= error %></p>
+            <% } %>
+            <form action="/tournaments/<%= tournament.id %>/edit" method="POST">
+                <div class="form-group">
+                    <label for="name">Tournament Name:</label>
+                    <input type="text" id="name" name="name" value="<%= tournament.name %>" required>
+                </div>
+                <div class="form-group">
+                    <label for="game">Game:</label>
+                    <input type="text" id="game" name="game" value="<%= tournament.game %>" required>
+                </div>
+                <div class="form-group">
+                    <label for="description">Description:</label>
+                    <textarea id="description" name="description" rows="4" required><%= tournament.description %></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="date">Date (e.g., YYYY-MM-DD or "Next Sunday"):</label>
+                    <input type="text" id="date" name="date" value="<%= tournament.date %>" required>
+                </div>
+                <button type="submit" class="cta-button edit-button">Update Tournament</button>
+            </form>
+            <p style="margin-top: 15px;"><a href="/tournaments/<%= tournament.id %>">&laquo; Back to Tournament Details</a></p>
+        </section>
+    </main>
+
+    <%- include('../partials/footer') %>
+</body>
+</html>

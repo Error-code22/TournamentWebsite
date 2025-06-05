@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= pageTitle %></title> <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <%- include('partials/navbar') %> <main>
+        <section class="hero">
+            <h1>Welcome to the Ultimate Tournament Hub!</h1>
+            <p>Find, join, and create gaming tournaments with ease.</p>
+            <% if (!currentUser) { %>
+                <a href="/register" class="cta-button">Join Now!</a>
+            <% } else { %>
+                 <a href="/tournaments" class="cta-button">Browse Tournaments</a>
+            <% } %>
+        </section>
+
+        <section class="features">
+            <h2>Features</h2>
+            <div class="feature-list">
+                <div class="feature-item"><h3>Create & Manage Tournaments</h3><p>Easily set up and run your own gaming events.</p></div>
+                <div class="feature-item"><h3>Multiplayer Game Support</h3><p>Connect with players for your favorite games.</p></div>
+                <div class="feature-item"><h3>User Accounts</h3><p>Save your progress, game lists, and connect with friends.</p></div>
+                <div class="feature-item"><h3>Live Chat</h3><p>Communicate with other users and your friends.</p></div>
+            </div>
+        </section>
+    </main>
+
+    <footer> <p>&copy; 2025 Tournament Hub. All rights reserved.</p> </footer>
+    <script src="/js/main.js"></script>
+</body>
+</html>

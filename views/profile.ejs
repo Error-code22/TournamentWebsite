@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= pageTitle %> - Tournament Hub</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        .profile-container {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            max-width: 600px; /* Make it a bit narrower again */
+            margin: 2rem auto;
+            text-align: center; /* Center content */
+        }
+        .profile-container h1 {
+            color: #0779e4;
+            margin-bottom: 1.5rem;
+        }
+        .profile-info p {
+            margin-bottom: 0.5rem;
+            font-size: 1.1em;
+        }
+        .profile-info strong {
+            color: #333;
+        }
+        .profile-actions {
+            margin-top: 20px;
+        }
+        .profile-actions .cta-button {
+            margin: 0 10px; /* Space out buttons */
+        }
+    </style>
+</head>
+<body>
+    <%- include('partials/navbar') %>
+
+    <main>
+        <section class="profile-container">
+            <% if (currentUser && fullUser) { %>
+                <h1>Welcome to your Profile, <%= fullUser.username %>!</h1>
+
+                <div class="profile-info">
+                    <p><strong>User ID:</strong> <%= fullUser.id %></p>
+                    <p><strong>Email:</strong> <%= fullUser.email %></p>
+                </div>
+
+                <div class="profile-actions">
+                    <a href="/" class="cta-button">Back to Homepage</a>
+                    <a href="/games" class="cta-button">Manage My Games</a>
+                </div>
+
+            <% } else { %>
+                <p style="margin-top: 50px;">You are not logged in. Please <a href="/login">login</a>.</p>
+            <% } %>
+        </section>
+    </main>
+
+    <%- include('partials/footer') %>
+</body>
+</html>

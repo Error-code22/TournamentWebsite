@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= pageTitle %> - Tournament Hub</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        .form-container {
+            max-width: 600px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .form-container h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 1.5rem;
+        }
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #555;
+            font-weight: bold;
+        }
+        .form-group input[type="text"],
+        .form-group input[type="date"],
+        .form-group textarea,
+        .form-group select { /* Added select */
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        .form-container .cta-button {
+            width: 100%;
+            background-color: #0779e4;
+        }
+        .form-container .cta-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <%- include('../partials/navbar') %>
+
+    <main>
+        <section class="form-container">
+            <h2><%= pageTitle %></h2>
+            <% if (typeof error !== 'undefined' && error) { %>
+                <p style="color: red; text-align: center;"><%= error %></p>
+            <% } %>
+            <form action="/tournaments" method="POST">
+                <div class="form-group">
+                    <label for="name">Tournament Name:</label>
+                    <input type="text" id="name" name="name" required value="<%= typeof name !== 'undefined' ? name : '' %>">
+                </div>
+                <div class="form-group">
+                    <label for="game">Game:</label>
+                    <select id="game" name="game" required>
+                        <option value="">Select a game</option>
+                        <% if (games && games.length > 0) { %>
+                            <% games.forEach(function(gameOption) { %>
+                                <option value="<%= gameOption.name %>" <%= typeof game !== 'undefined' && game === gameOption.name ? 'selected' : '' %>>
+                                    <%= gameOption.name %>
+                                </option>
+                            <% }); %>
+                        <% } else { %>
+                            <option value="" disabled>No games available. Add some in the Games section first!</option>
+                        <% } %>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="description">Description:</label>
+                    <textarea id="description" name="description" rows="5" required><%= typeof description !== 'undefined' ? description : '' %></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="date">Scheduled Date:</label>
+                    <input type="date" id="date" name="date" required value="<%= typeof date !== 'undefined' ? date : '' %>">
+                </div>
+                <button type="submit" class="cta-button">Create Tournament</button>
+            </form>
+        </section>
+    </main>
+
+    <%- include('../partials/footer') %>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= pageTitle %></title>
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        .not-found-container { text-align: center; padding: 40px 20px; }
+        .not-found-container h1 { font-size: 3em; color: #333; }
+        .not-found-container p { font-size: 1.2em; color: #555; }
+    </style>
+</head>
+<body>
+    <%- include('partials/navbar') %>
+
+    <main>
+        <div class="not-found-container">
+            <h1>404</h1>
+            <p><%= typeof message !== 'undefined' ? message : 'Sorry, the page you are looking for could not be found.' %></p>
+            <a href="/" class="cta-button" style="margin-top: 20px;">Go to Homepage</a>
+        </div>
+    </main>
+
+    <%- include('partials/footer') %>
+</body>
+</html>

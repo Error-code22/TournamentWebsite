@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= pageTitle %> - Tournament Hub</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        .games-page-container {
+            max-width: 1100px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        .search-bar-container {
+            background-color: #f0f0f0;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        .search-bar-container input[type="text"] {
+            flex-grow: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+        .search-bar-container button {
+            padding: 10px 15px;
+            background-color: #0779e4;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s ease;
+        }
+        .search-bar-container button:hover {
+            background-color: #0056b3;
+        }
+
+        .tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #ddd;
+        }
+        .tab-button {
+            background: none;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #555;
+            transition: color 0.3s ease, border-bottom 0.3s ease;
+            position: relative;
+            bottom: -2px; /* Align with border */
+        }
+        .tab-button.active {
+            color: #0779e4;
+            border-bottom: 2px solid #0779e4;
+        }
+        .tab-button:hover {
+            color: #0779e4;
+        }
+        .tab-content {
+            padding: 20px 0;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 0 20px; /* Adjust padding for grid */
+        }
+        .game-card {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            text-align: center;
+            transition: transform 0.2s ease-in-out;
+            position: relative; /* For the remove button */
+        }
+        .game-card:hover {
+            transform: translateY(-5px);
+        }
+        .game-card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            display: block;
+        }
+        .game-card-content {
+            padding: 15px;
+        }
+        .game-card h3 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            color: #0779e4;
+        }
+        .game-card p {
+            font-size: 0.9em;
+            color: #555;
+            margin-bottom: 5px;
+        }
+        .game-card .description {
+            font-size: 0.85em;
+            color: #666;
+            margin-top: 10px;
+            min-height: 40px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .no-games, .no-games-added {
+            text-align: center;
+            margin-top: 30px;
+            color: #777;
+        }
+        .add-game-form {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #e9f5ff;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .add-game-form select {
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            margin-right: 10px;
+            width: calc(100% - 120px);
+            max-width: 300px;
+        }
+        .add-game-form .cta-button {
+            padding: 10px 15px;
+            font-size: 1em;
+            vertical-align: middle;
+        }
+
+        .remove-game-btn {
+            background-color: #dc3545; /* Red */
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 5px 10px;
+            font-size: 0.8em;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            opacity: 0.8;
+            z-index: 10; /* Ensure it's above other content */
+        }
+        .remove-game-btn:hover {
+            background-color: #c82333;
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <%- include('../partials/navbar') %>
+
+    <main>
+        <section class="games-page-container">
+            <h1 style="text-align: center; margin-bottom: 30px; color: #333;">Game Hub</h1>
+
+            <div class="search-bar-container">
+                <form action="/games" method="GET" style="display: flex; width: 100%;">
+                    <input type="text" name="search" placeholder="Search games by name, genre, or developer..." value="<%= searchTerm %>">
+                    <button type="submit">Search</button>
+                </form>
+            </div>
+
+            <div class="tabs">
+                <button class="tab-button active" onclick="openTab(event, 'allGames')">All Supported Games</button>
+                <% if (currentUser) { %>
+                    <button class="tab-button" onclick="openTab(event, 'myGames')">My Games</button>
+                <% } %>
+            </div>
+
+            <div id="allGames" class="tab-content">
+                <% if (games.length > 0) { %>
+                    <div class="games-grid">
+                        <% games.forEach(function(game) { %>
+                            <div class="game-card">
+                                <% if (game.imageUrl) { %>
+                                    <img src="<%= game.imageUrl %>" alt="<%= game.name %> Cover">
+                                <% } %>
+                                <div class="game-card-content">
+                                    <h3><%= game.name %></h3>
+                                    <p><strong>Genre:</strong> <%= game.genre %></p>
+                                    <p><strong>Developer:</strong> <%= game.developer %></p>
+                                    <p class="description"><%= game.description %></p>
+                                </div>
+                            </div>
+                        <% }); %>
+                    </div>
+                <% } else { %>
+                    <p class="no-games">No games match your search or are available at the moment.</p>
+                <% } %>
+            </div>
+
+            <% if (currentUser) { %>
+                <div id="myGames" class="tab-content" style="display:none;">
+                    <% if (userGames && userGames.length > 0) { %>
+                        <div class="games-grid">
+                            <% userGames.forEach(function(game) { %>
+                                <div class="game-card">
+                                    <% if (game.imageUrl) { %>
+                                        <img src="<%= game.imageUrl %>" alt="<%= game.name %> Cover">
+                                    <% } %>
+                                    <div class="game-card-content">
+                                        <h3><%= game.name %></h3>
+                                        <p style="font-size: 0.8em; color: #777;"><%= game.genre %></p>
+                                        <form action="/profile/remove-game" method="POST" onsubmit="return confirm('Remove <%= game.name %> from your list?');">
+                                            <input type="hidden" name="gameId" value="<%= game.id %>">
+                                            <button type="submit" class="remove-game-btn">X</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            <% }); %>
+                        </div>
+                    <% } else { %>
+                        <p class="no-games-added">You haven't added any games to your list yet.</p>
+                    <% } %>
+
+                    <div class="add-game-form">
+                        <h3>Add a New Game to Your List</h3>
+                        <form action="/profile/add-game" method="POST">
+                            <select name="gameId" required>
+                                <option value="">Select a game</option>
+                                <% if (availableGames && availableGames.length > 0) { %>
+                                    <% availableGames.forEach(function(game) { %>
+                                        <option value="<%= game.id %>"><%= game.name %></option>
+                                    <% }); %>
+                                <% } else { %>
+                                    <option value="" disabled>No more games to add!</option>
+                                <% } %>
+                            </select>
+                            <button type="submit" class="cta-button">Add Game</button>
+                        </form>
+                    </div>
+                </div>
+            <% } %>
+        </section>
+    </main>
+
+    <%- include('../partials/footer') %>
+
+    <script>
+        // JavaScript for tab functionality
+        function openTab(evt, tabName) {
+            var i, tabContent, tabButtons;
+            tabContent = document.getElementsByClassName("tab-content");
+            for (i = 0; i < tabContent.length; i++) {
+                tabContent[i].style.display = "none";
+            }
+            tabButtons = document.getElementsByClassName("tab-button");
+            for (i = 0; i < tabButtons.length; i++) {
+                tabButtons[i].className = tabButtons[i].className.replace(" active", "");
+            }
+            document.getElementById(tabName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+
+        // Set 'All Supported Games' tab as active by default on load
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelector('.tab-button').click();
+        });
+    </script>
+</body>
+</html>

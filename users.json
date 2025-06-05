@@ -1,0 +1,26 @@
+[
+  {
+    "id": "1748982847398",
+    "username": "trial1",
+    "email": "trial1@gmail.com",
+    "password": "$2b$10$YUMAT8QQvim0.elbmCJ1M.pt52YjSck9lFo1thaHg2iZpB2Him8Zq",
+    "gamesList": [
+      "9",
+      "10"
+    ]
+  },
+  {
+    "id": "1748983118761",
+    "username": "trial2",
+    "email": "trial2@gmail.com",
+    "password": "$2b$10$ArE1hPf1m59vHz47CMzUIu96jN1SxKpJgW.ALfw/Q.tTna09ABB7C",
+    "gamesList": []
+  },
+  {
+    "id": "1749021209728",
+    "username": "trial3",
+    "email": "trial3@gmail.com",
+    "password": "$2b$10$9ljqTcMO/6.1QUBHPFd35.tDH.JfrXkbb.IPQir1OSth3BhSm8aL2",
+    "gamesList": []
+  }
+]
