@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= pageTitle %></title>
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        .error-container { text-align: center; padding: 40px 20px; }
+        .error-container h1 { font-size: 3em; color: #dc3545; } /* Red for error */
+        .error-container p { font-size: 1.2em; color: #555; }
+    </style>
+</head>
+<body>
+    <%- include('partials/navbar') %>
+
+    <main>
+        <div class="error-container">
+            <h1>403</h1>
+            <p><%= typeof message !== 'undefined' ? message : 'Sorry, you do not have permission to access this page.' %></p>
+            <a href="/" class="cta-button" style="margin-top: 20px;">Go to Homepage</a>
+        </div>
+    </main>
+
+    <%- include('partials/footer') %>
+</body>
+</html>
